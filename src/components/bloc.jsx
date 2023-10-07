@@ -8,8 +8,10 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { red } from '@mui/material/colors';
+
+
 
 export default function Bloc() {
      const [taskList, setTaskList] = useState([]);
@@ -18,6 +20,7 @@ export default function Bloc() {
      const [newTask, setNewTask] = useState("");
      const [newDeadline, setNewDeadline] = useState("");
      const [isDone, setIsDone] = useState(0);
+     const color = red[500];
 
      const handleClickOpen = () => {
           setOpen(true);
@@ -102,12 +105,16 @@ export default function Bloc() {
 
      }, [])
      return (
-          <div className="w-1/2 m-auto">
-               <div className="flex">
-                    <h2 className="text-2xl font-semibold">Todo</h2>
-                    <Button variant="contained" onClick={handleClickOpen}>
-                         Add
-                    </Button>
+          <div className="w-11/12 lg:w-2/3 xl:w-1/2 m-auto shadow-lg rounded-xl p-1 xl:p-4 bg-white mt-8">
+               <div className="flex ">
+                    <div className="w-1/2 ">
+                         <h2 className="text-2xl ml-4 mt-4 font-bold">Todo</h2>
+                    </div>
+                    <div className="w-1/2 grid justify-items-end mr-4 mt-4">
+                         <Button variant="contained" onClick={handleClickOpen} className="">
+                              Add task
+                         </Button>
+                    </div>
                </div>
 
                <Dialog open={open} onClose={handleClose}>
@@ -146,36 +153,36 @@ export default function Bloc() {
                <ul>
                     {loading ? <p>Chargement</p> : taskList.map(task => (
                          task.completed === 0 ?
-                              <div className="border-2 border-sky-300 m-4 px-3 py-2 flex rounded-xl">
+                              <div className="border-2 border-gray-300 m-4 px-1 xl:px-3 py-2 flex rounded-xl relative">
                                    <div className="">
-                                        <Checkbox color="success" sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} onChange={(e) => {
+                                        <Checkbox color="primary" sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} onChange={(e) => {
                                              e.preventDefault();
                                              handleCheckTask(task.id)
                                         }} />
                                    </div>
-                                   <div className="ml-2">
+                                   <div className="ml-2 w-5/6 ">
                                         <li key={task.id} className=" font-bold"> {task.content} </li>
                                         <span className="font-light text-sm">{task.deadline} </span>
                                    </div>
-                                   <div>
+                                   <div className="absolute right-1.5 top-1.5 ">
                                         <IconButton aria-label="delete" size="large" onClick={(e) => {
                                              e.preventDefault();
                                              handleDeleteTask(task.id);
                                         }}>
-                                             <DeleteIcon fontSize="inherit" color="success" />
+                                             <DeleteIcon fontSize="inherit" color="error" />
                                         </IconButton>
                                    </div>
                               </div>
                               : null
                     ))}
-               </ul><hr />
-               <h2 className="text-xl font-semibold">Completed</h2>
+               </ul><hr className="mt-8" />
+               <h2 className="text-xl font-semibold ml-4 mt-3">Completed</h2>
                <ul>
                     {loading ? <p>Chargement</p> : taskList.map(task => (
                          task.completed === 1 ?
-                              <div className="border-2 border-sky-300 m-4 px-3 py-2 flex rounded-xl">
+                              <div className="border-2 border-gray-300 m-4 px-1 xl:px-3 py-2 flex rounded-xl opacity-50">
                                    <div className="">
-                                        <Checkbox color="success" sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} checked />
+                                        <Checkbox color="primary" sx={{ '& .MuiSvgIcon-root': { fontSize: 28 } }} checked />
                                    </div>
                                    <div className="ml-2">
                                         <li key={task.id} className="line-through font-bold"> {task.content} </li>
